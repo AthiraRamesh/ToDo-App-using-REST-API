@@ -19,8 +19,13 @@ class _AddTodoPageState extends State<AddTodoPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.todo != null) {
+    final todo = widget.todo;
+    if (todo != null) {
       isEdit = true;
+      final title = todo['title'];
+      final description = todo['description'];
+      titleController.text = title;
+      descriptionController.text = description;
     }
   }
 
