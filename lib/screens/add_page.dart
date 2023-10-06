@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class AddTodoPage extends StatefulWidget {
-  const AddTodoPage({super.key});
+  final Map? todo;
+  const AddTodoPage({super.key, this.todo});
 
   @override
   State<AddTodoPage> createState() => _AddTodoPageState();
@@ -13,11 +14,21 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  bool isEdit = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.todo != null) {
+      isEdit = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Todo'),
+        title: Text(isEdit ? 'Edit Todo' : 'Add Todo'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -40,12 +51,19 @@ class _AddTodoPageState extends State<AddTodoPage> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: submitData, child: Text('Submit'))
+            ElevatedButton(
+                onPressed: isEdit ? UpdateData : submitData,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(isEdit ? 'Update' : 'Submit'),
+                ))
           ],
         ),
       ),
     );
   }
+
+  Future<void> UpdateData() async {}
 
   Future<void> submitData() async {
     // get the data from form
